@@ -58,6 +58,8 @@ class UserController extends Controller
 	public function update(UpdateUserRequest $request, User $user): RedirectResponse
 	{
 		$user->update($request->validated());
+
+		toast('User has been successfully updated.', 'success');
 		return back();
 	}
 
@@ -67,6 +69,8 @@ class UserController extends Controller
 	public function destroy(User $user): RedirectResponse
 	{
 		$user->delete();
+
+		toast('User has been successfully deleted.', 'success');
 		return redirect()->route('users.index');
 
 	}
