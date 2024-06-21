@@ -5,14 +5,16 @@ namespace App\Http\Controllers\Web\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class UserController extends Controller
 {
 	/**
 	 * Display a listing of the resource.
 	 */
-	public function index()
+	public function index(): View
 	{
 		$users = User::where('id', '!=', auth()->user()->id)->paginate(5)->withQueryString();
 		return view('user.index', compact('users'));
@@ -45,7 +47,7 @@ class UserController extends Controller
 	/**
 	 * Show the form for editing the specified resource.
 	 */
-	public function edit(User $user)
+	public function edit(User $user): View
 	{
 		return view('user.edit', compact('user'));
 	}
@@ -53,17 +55,19 @@ class UserController extends Controller
 	/**
 	 * Update the specified resource in storage.
 	 */
-	public function update(UpdateUserRequest $request, User $user)
+	public function update(UpdateUserRequest $request, User $user): RedirectResponse
 	{
-		$user = $user->update($request->validated());
+		$user->update($request->validated());
 		return back();
 	}
 
 	/**
 	 * Remove the specified resource from storage.
 	 */
-	public function destroy(string $id)
+	public function destroy(User $user): RedirectResponse
 	{
-		//
+		$user->delete();
+		return redirect()->route('users.index');
+
 	}
 }
