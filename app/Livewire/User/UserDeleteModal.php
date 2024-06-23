@@ -11,7 +11,6 @@ class UserDeleteModal extends Component
 {
 
 	public $selectedUserId = null;
-	public $show = false;
 
 	public function render()
 	{
@@ -22,13 +21,13 @@ class UserDeleteModal extends Component
 	public function deleteUser($userId)
 	{
 		$this->selectedUserId = $userId;
-		$this->show = true;
+		$this->dispatch('open-modal', 'confirm-user-deletion');
 	}
 
 	public function destroy()
 	{
 		User::destroy($this->selectedUserId);
-		$this->show = false;
+		$this->dispatch('close-modal', 'confirm-user-deletion');
 		$this->dispatch('refresh-parent');
 	}
 
