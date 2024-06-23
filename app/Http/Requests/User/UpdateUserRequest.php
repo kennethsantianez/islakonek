@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests\User;
 
-use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Password;
+
+use App\Models\User;
 
 class UpdateUserRequest extends FormRequest
 {
@@ -39,6 +41,12 @@ class UpdateUserRequest extends FormRequest
 				'string',
 				'max:255'
 			],
+			'role' => [
+				'required',
+				'string',
+				'max:255',
+				Rule::in('Administrator', 'Encoder')
+			],
 			'email' => [
 				'required',
 				'string',
@@ -47,6 +55,7 @@ class UpdateUserRequest extends FormRequest
 				'email',
 				Rule::unique(User::class)->ignore($this->user->id)
 			],
+			'password' => ['nullable', 'confirmed', Password::defaults()],
 		];
 	}
 }

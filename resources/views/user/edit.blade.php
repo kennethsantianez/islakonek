@@ -54,6 +54,28 @@
 								<x-input-error class="mt-2" :messages="$errors->get('email')" />
 							</div>
 
+							<div>
+								<x-input-label for="role" :value="__('Role')" />
+								<select name="role" id="role" required class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+									<option value="Administrator" {{ old('role', $user->role) === 'Administrator' ? 'selected' : '' }}>Administrator</option>
+									<option value="Encoder" {{ old('role', $user->role) === 'Encoder' ? 'selected' : '' }}>Encoder</option>
+								</select>
+								<x-input-error class="mt-2" :messages="$errors->get('role')" />
+							</div>
+
+							<div>
+								<x-input-label for="password" :value="__('Password')" />
+								<x-text-input id="password" name="password" type="password" class="mt-1 block w-full" />
+								<x-input-error :messages="$errors->get('password')" class="mt-2" />
+							</div>
+					
+							<div>
+								<x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+								<x-text-input id="password_confirmation" name="password_confirmation" type="password"
+									class="mt-1 block w-full" />
+								<x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+							</div>
+
 							<div class="flex items-center gap-4">
 								<x-primary-button>
 									<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"

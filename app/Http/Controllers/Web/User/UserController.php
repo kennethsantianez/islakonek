@@ -60,7 +60,23 @@ class UserController extends Controller
 	 */
 	public function update(UpdateUserRequest $request, User $user): RedirectResponse
 	{
-		$user->update($request->validated());
+		$data = $request->validated();
+
+		$user->first_name 	= $data['first_name'];
+		$user->middle_name 	= $data['middle_name'];
+		$user->last_name 		= $data['last_name'];
+		$user->email 				= $data['email'];
+		$user->role 				= $data['role'];
+
+		if ( isset($data['password']) ) {
+			$user->password		= $data['password'];
+		}
+
+		if ($user->isDirty('email')) {
+			$user->email_verified_at = null;
+		}
+
+		$user->save();
 
 		toast('User has been successfully updated.', 'success');
 		return back();
