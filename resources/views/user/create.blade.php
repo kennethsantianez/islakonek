@@ -49,13 +49,13 @@
 							<div>
 								<x-input-label for="email" :value="__('Email')" />
 								<x-text-input id="email" name="email" type="email" class="mt-1 block w-full"
-									:value="old('email')" required autocomplete="username" />
+									:value="old('email')" required />
 								<x-input-error class="mt-2" :messages="$errors->get('email')" />
 							</div>
 
 							<div>
 								<x-input-label for="role" :value="__('Role')" />
-								<select name="role" id="role">
+								<select name="role" id="role" required class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
 									<option value="Administrator">Administrator</option>
 									<option value="Encoder">Encoder</option>
 								</select>
@@ -65,14 +65,14 @@
 							<div>
 								<x-input-label for="password" :value="__('Password')" />
 								<x-text-input id="password" name="password" type="password" class="mt-1 block w-full"
-									autocomplete="new-password" />
+								required />
 								<x-input-error :messages="$errors->get('password')" class="mt-2" />
 							</div>
 					
 							<div>
 								<x-input-label for="password_confirmation" :value="__('Confirm Password')" />
 								<x-text-input id="password_confirmation" name="password_confirmation" type="password"
-									class="mt-1 block w-full" autocomplete="new-password" />
+									class="mt-1 block w-full" />
 								<x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
 							</div>
 
