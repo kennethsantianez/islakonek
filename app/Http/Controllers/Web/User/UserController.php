@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Web\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class UserController extends Controller
@@ -25,15 +25,18 @@ class UserController extends Controller
 	 */
 	public function create()
 	{
-		//
+		return view('user.create');
 	}
 
 	/**
 	 * Store a newly created resource in storage.
 	 */
-	public function store(Request $request)
+	public function store(StoreUserRequest $request): RedirectResponse
 	{
-		//
+		$user = User::create($request->validated());
+		
+		toast('User has been successfully added.', 'success');
+		return back();
 	}
 
 	/**
