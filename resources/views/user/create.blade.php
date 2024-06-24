@@ -18,54 +18,54 @@
 							</h2>
 
 							<p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-								{{ __("Update your account's profile information and email address.") }}
+								{{ __("Add your account's profile information and email address.") }}
 							</p>
 						</header>
 
-						<form method="POST" action="{{ route('users.update', $user) }}" class="mt-6 space-y-6">
+						<form method="POST" action="{{ route('users.store') }}" class="mt-6 space-y-6">
 							@csrf
-							@method('PATCH')
 
 							<div>
 								<x-input-label for="first_name" :value="__('First Name')" />
 								<x-text-input id="first_name" name="first_name" type="text" class="mt-1 block w-full"
-									:value="old('first_name', $user->first_name)" required autofocus />
+									:value="old('first_name')" required autofocus />
 								<x-input-error class="mt-2" :messages="$errors->get('first_name')" />
 							</div>
 
 							<div>
 								<x-input-label for="middle_name" :value="__('Middle Name')" />
 								<x-text-input id="middle_name" name="middle_name" type="text" class="mt-1 block w-full"
-									:value="old('middle_name', $user->middle_name)" required />
+									:value="old('middle_name')" required />
 								<x-input-error class="mt-2" :messages="$errors->get('middle_name')" />
 							</div>
 
 							<div>
 								<x-input-label for="last_name" :value="__('Last Name')" />
 								<x-text-input id="last_name" name="last_name" type="text" class="mt-1 block w-full"
-									:value="old('last_name', $user->last_name)" required />
+									:value="old('last_name')" required />
 								<x-input-error class="mt-2" :messages="$errors->get('last_name')" />
 							</div>
 
 							<div>
 								<x-input-label for="email" :value="__('Email')" />
 								<x-text-input id="email" name="email" type="email" class="mt-1 block w-full"
-									:value="old('email', $user->email)" required autocomplete="username" />
+									:value="old('email')" required />
 								<x-input-error class="mt-2" :messages="$errors->get('email')" />
 							</div>
 
 							<div>
 								<x-input-label for="role" :value="__('Role')" />
 								<select name="role" id="role" required class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-									<option value="Administrator" {{ old('role', $user->role) === 'Administrator' ? 'selected' : '' }}>Administrator</option>
-									<option value="Encoder" {{ old('role', $user->role) === 'Encoder' ? 'selected' : '' }}>Encoder</option>
+									<option value="Administrator">Administrator</option>
+									<option value="Encoder">Encoder</option>
 								</select>
 								<x-input-error class="mt-2" :messages="$errors->get('role')" />
 							</div>
 
 							<div>
 								<x-input-label for="password" :value="__('Password')" />
-								<x-text-input id="password" name="password" type="password" class="mt-1 block w-full" />
+								<x-text-input id="password" name="password" type="password" class="mt-1 block w-full"
+								required />
 								<x-input-error :messages="$errors->get('password')" class="mt-2" />
 							</div>
 					

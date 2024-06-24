@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Web\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class UserController extends Controller
@@ -16,8 +16,8 @@ class UserController extends Controller
 	 */
 	public function index(): View
 	{
-		$users = User::where('id', '!=', auth()->user()->id)->paginate(5)->withQueryString();
-		return view('user.index', compact('users'));
+		$totalUsers = User::count();
+		return view('user.index', compact('totalUsers'));
 	}
 
 	/**
@@ -25,15 +25,18 @@ class UserController extends Controller
 	 */
 	public function create()
 	{
-		//
+		return view('user.create');
 	}
 
 	/**
 	 * Store a newly created resource in storage.
 	 */
-	public function store(Request $request)
+	public function store(StoreUserRequest $request): RedirectResponse
 	{
-		//
+		$user = User::create($request->validated());
+		
+		toast('User has been successfully added.', 'success');
+		return back();
 	}
 
 	/**
@@ -57,7 +60,23 @@ class UserController extends Controller
 	 */
 	public function update(UpdateUserRequest $request, User $user): RedirectResponse
 	{
-		$user->update($request->validated());
+		$data = $request->validated();
+
+		$user->first_name 	= $data['first_name'];
+		$user->middle_name 	= $data['middle_name'];
+		$user->last_name 		= $data['last_name'];
+		$user->email 				= $data['email'];
+		$user->role 				= $data['role'];
+
+		if ( isset($data['password']) ) {
+			$user->password		= $data['password'];
+		}
+
+		if ($user->isDirty('email')) {
+			$user->email_verified_at = null;
+		}
+
+		$user->save();
 
 		toast('User has been successfully updated.', 'success');
 		return back();

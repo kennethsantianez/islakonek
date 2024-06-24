@@ -13,8 +13,8 @@
 		<link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
 		{{-- Scripts --}}
+		@livewireStyles
 		@vite('resources/css/app.css')
-
 	</head>
 
 	<body class="font-sans antialiased">
@@ -41,9 +41,14 @@
 
 		{{-- app --}}
 		@vite('resources/js/app.js')
+		
+		{{-- livewire --}}
+		@livewireScripts
 
 		{{-- sweetalert --}}
 		@include('sweetalert::alert')
+
+		@stack('scripts')
 
 	</body>
 

@@ -8,7 +8,7 @@ use Illuminate\Validation\Rules\Password;
 
 use App\Models\User;
 
-class UpdateUserRequest extends FormRequest
+class StoreUserRequest extends FormRequest
 {
 	/**
 	 * Determine if the user is authorized to make this request.
@@ -53,9 +53,9 @@ class UpdateUserRequest extends FormRequest
 				'max:255',
 				'lowercase',
 				'email',
-				Rule::unique(User::class)->ignore($this->user->id)
+				Rule::unique(User::class)
 			],
-			'password' => ['nullable', 'confirmed', Password::defaults()],
+			'password' => ['required', 'confirmed', Password::defaults()],
 		];
 	}
 }
