@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Web\Island\IslandController;
 use App\Http\Controllers\Web\User\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +20,9 @@ Route::middleware('auth')->group(function () {
 
 	// users
 	Route::resource('users', UserController::class);
+
+	// islands
+	Route::resource('islands', IslandController::class);
 
 });
 
