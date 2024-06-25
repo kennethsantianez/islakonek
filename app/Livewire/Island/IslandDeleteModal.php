@@ -25,7 +25,12 @@ class IslandDeleteModal extends Component
 
 	public function destroy()
 	{
-		Island::destroy($this->selectedIslandId);
+		$island = Island::findOrFail($this->selectedIslandId);
+
+		if (! $island->exists('contacts')) {
+			Island::destroy($this->selectedIslandId);
+		}
+
 		$this->dispatch('close-modal', 'confirm-island-deletion');
 		$this->dispatch('refresh-parent');
 	}
