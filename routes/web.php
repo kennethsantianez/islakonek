@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Web\Island\Contact\IslandContact;
 use App\Http\Controllers\Web\Island\IslandController;
 use App\Http\Controllers\Web\User\UserController;
 use Illuminate\Support\Facades\Route;
@@ -22,6 +23,11 @@ Route::middleware('auth')->group(function () {
 	Route::resource('users', UserController::class);
 
 	// islands
+	Route::prefix('islands')->name('islands.')->group( function() {
+		
+		Route::get('/{island}/contacts', IslandContact::class)->name('contacts');
+
+	});
 	Route::resource('islands', IslandController::class);
 
 });

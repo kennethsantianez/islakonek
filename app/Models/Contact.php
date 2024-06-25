@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Island extends Model
+class Contact extends Model
 {
 	use HasFactory;
 
@@ -16,11 +16,7 @@ class Island extends Model
 	 */
 	protected $fillable = [
 		'name',
+		'island_id',
 	];
-
-	public function contacts()
-	{
-		return $this->hasMany(Contact::class);
-	}
 
 }
