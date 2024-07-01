@@ -22,7 +22,7 @@
 							</p>
 						</header>
 
-						<form method="POST" action="{{ route('users.store') }}" class="mt-6 space-y-6">
+						<form method="POST" action="{{ route('users.store') }}" enctype="multipart/form-data" class="mt-6 space-y-6">
 							@csrf
 
 							<div>
@@ -60,6 +60,12 @@
 									<option value="Encoder">Encoder</option>
 								</select>
 								<x-input-error class="mt-2" :messages="$errors->get('role')" />
+							</div>
+
+							<div>
+								<x-input-label for="avatar" :value="__('Avatar')" />
+								<x-text-input type="file" name="avatar" class="mt-1 block w-full"></x-text-input>
+								<x-input-error class="mt-2" :messages="$errors->get('avatar')" />
 							</div>
 
 							<div>

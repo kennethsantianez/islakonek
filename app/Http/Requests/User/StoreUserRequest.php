@@ -5,6 +5,7 @@ namespace App\Http\Requests\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Validation\Rules\File;
 
 use App\Models\User;
 
@@ -55,7 +56,11 @@ class StoreUserRequest extends FormRequest
 				'email',
 				Rule::unique(User::class)
 			],
-			'password' => ['required', 'confirmed', Password::defaults()],
+			'password' => ['required', 'confirmed', Password::min(8)],
+			'avatar' => [
+				'required',
+        File::image(),
+			]
 		];
 	}
 }

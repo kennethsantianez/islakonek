@@ -6,7 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Models\User;
+use Illuminate\Http\File;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class UserController extends Controller
@@ -33,8 +36,22 @@ class UserController extends Controller
 	 */
 	public function store(StoreUserRequest $request): RedirectResponse
 	{
+
+		$data = $request->validated();
+
 		$user = User::create($request->validated());
-		
+
+		// custom file name
+		$extension = $data['avatar']->getClientOriginalExtension(); //Extension .png
+		$avatarFileName =  $user->id . '.' . $extension;
+
+		// Store file in storage
+		Storage::putFileAs('public/avatar', new File($data['avatar']), $avatarFileName);
+
+		// store avatar file name
+		$user->avatar = $avatarFileName;
+		$user->save();
+
 		toast('User has been successfully added.', 'success');
 		return back();
 	}

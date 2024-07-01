@@ -64,7 +64,16 @@
 
 							<tr>
 								<td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-									{{ $user->first_name }}
+									<div class="inline-flex items-center gap-x-3">
+										<input type="checkbox" class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700">
+
+										<div class="flex items-center gap-x-2">
+											<img class="object-cover w-10 h-10 rounded-full" src="{{ ($user->avatar) ? \Storage::url('avatar/' . $user->avatar) : null }}" alt="">
+											<div>
+												<h2 class="font-medium text-gray-800 dark:text-white ">{{ $user->first_name }}</h2>
+											</div>
+										</div>
+								</div>
 								</td>
 								<td class="px-12 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
 									{{ $user->middle_name }}
