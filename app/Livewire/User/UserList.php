@@ -22,7 +22,7 @@ class UserList extends Component
 
 	public function render()
 	{
-		$users = User::where('id', '!=', auth()->user()->id)
+		$users = User::with('media')->where('id', '!=', auth()->user()->id)
 			->where('first_name', 'like', "%{$this->search}%")
 			->paginate(5);
 
