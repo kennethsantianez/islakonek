@@ -58,7 +58,7 @@ class StoreUserRequest extends FormRequest
 			],
 			'password' => ['required', 'confirmed', Password::min(8)],
 			'avatar' => [
-				'required',
+				'nullable',
         File::image(),
 			]
 		];

@@ -10,6 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 use App\Models\User;
+use App\Services\Avatar\AvatarService;
 
 class UserController extends Controller
 {
@@ -33,14 +34,20 @@ class UserController extends Controller
 	/**
 	 * Store a newly created resource in storage.
 	 */
-	public function store(StoreUserRequest $request, MediaAttachmentService $userAvatarService): RedirectResponse
+	public function store(StoreUserRequest $request, MediaAttachmentService $userAvatarService, AvatarService $avatarService): RedirectResponse
 	{
 
 		$data = $request->validated();
 
 		$user = User::create($request->validated());
 
-		$userAvatarService->uploadSingle($user, $data['avatar'], 'avatar');
+		$firstLetter = mb_substr($user->first_name, 0, 1);
+		$secondLetter = mb_substr($user->last_name, 0, 1);
+		$string = $firstLetter . $secondLetter;
+
+		$avatar = $avatarService->store($user, $string, 'avatar');
+
+		// $userAvatarService->uploadSingle($user, $data['avatar'], 'avatar');
 
 		toast('User has been successfully added.', 'success');
 		return back();
