@@ -5,12 +5,11 @@ namespace App\Http\Controllers\Web\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
-use App\Models\User;
-use Illuminate\Http\File;
+use App\Services\Media\MediaAttachmentService;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+
+use App\Models\User;
 
 class UserController extends Controller
 {
@@ -26,7 +25,7 @@ class UserController extends Controller
 	/**
 	 * Show the form for creating a new resource.
 	 */
-	public function create()
+	public function create(): View
 	{
 		return view('user.create');
 	}
@@ -34,23 +33,14 @@ class UserController extends Controller
 	/**
 	 * Store a newly created resource in storage.
 	 */
-	public function store(StoreUserRequest $request): RedirectResponse
+	public function store(StoreUserRequest $request, MediaAttachmentService $userAvatarService): RedirectResponse
 	{
 
 		$data = $request->validated();
 
 		$user = User::create($request->validated());
 
-		// custom file name
-		$extension = $data['avatar']->getClientOriginalExtension(); //Extension .png
-		$avatarFileName =  $user->id . '.' . $extension;
-
-		// Store file in storage
-		Storage::putFileAs('public/avatar', new File($data['avatar']), $avatarFileName);
-
-		// store avatar file name
-		$user->avatar = $avatarFileName;
-		$user->save();
+		$userAvatarService->uploadSingle($user, $data['avatar'], 'avatar');
 
 		toast('User has been successfully added.', 'success');
 		return back();
@@ -69,13 +59,14 @@ class UserController extends Controller
 	 */
 	public function edit(User $user): View
 	{
-		return view('user.edit', compact('user'));
+		$avatar = $user->load('media');
+		return view('user.edit', compact('user', 'avatar'));
 	}
 
 	/**
 	 * Update the specified resource in storage.
 	 */
-	public function update(UpdateUserRequest $request, User $user): RedirectResponse
+	public function update(UpdateUserRequest $request, User $user, MediaAttachmentService $userAvatarService): RedirectResponse
 	{
 		$data = $request->validated();
 
@@ -95,6 +86,10 @@ class UserController extends Controller
 
 		$user->save();
 
+		if ( isset($data['avatar']) ) {
+			$userAvatarService->uploadSingle($user, $data['avatar'], 'avatar');
+		}
+		
 		toast('User has been successfully updated.', 'success');
 		return back();
 	}

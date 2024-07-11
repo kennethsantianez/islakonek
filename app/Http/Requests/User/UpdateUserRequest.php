@@ -5,6 +5,7 @@ namespace App\Http\Requests\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Validation\Rules\File;
 
 use App\Models\User;
 
@@ -56,6 +57,10 @@ class UpdateUserRequest extends FormRequest
 				Rule::unique(User::class)->ignore($this->user->id)
 			],
 			'password' => ['nullable', 'confirmed', Password::defaults()],
+			'avatar' => [
+				'required',
+        File::image(),
+			]
 		];
 	}
 }
